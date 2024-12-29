@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Give Books</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('backgroundimage.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            color: #fff;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: black;
+        }
+
+        .header .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header .account-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: absolute; 
+            top: 10px;
+            right: 100px;
+        }
+
+        .header .account-btn:hover {
+            background-color: #45a049;
+        }
+
+        h1 {
+            text-align: center;
+            color: black;
+            margin-top: 80px;
+            font-size: 3em;
+            text-shadow: 3px 3px 8px rgba(252, 250, 250, 0.8);
+        }
+
+        .container {
+            background: rgba(231, 230, 230, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            width: 50%;
+            margin: 50px auto;
+            box-shadow: 0px 8px 15px rgba(11, 6, 6, 0.4);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .condition-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-buttons button {
+            padding: 10px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .reset-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="#" class="logo">
+            <img src="logo.jpg" alt="BookSwap Logo">
+            BiblioHub
+        </a>
+        <button class="account-btn" onclick="location.href='account.html'">My Account</button>
+    </div>
+    <h1>Give Books</h1>
+    <div class="container">
+        <form action="/give-book" method="POST">
+            <label for="bookTitle">Book Title *</label>
+            <input type="text" id="bookTitle" name="bookTitle" placeholder="Enter book title" required>
+        
+            <label for="authorName">Author Name *</label>
+            <input type="text" id="authorName" name="authorName" placeholder="Enter author name" required>
+        
+            <label for="bookSubject">Subject *</label>
+            <select id="bookSubject" name="bookSubject" required>
+                <option value="" disabled selected>Select a subject</option>
+                <option value="Academics and Testbooks">Academics and Testbooks</option>
+                <option value="Action and Adventure">Action and Adventure</option>
+                <option value="Biographies and Diaries">Biographies and Diaries</option>
+                <option value="Business and Economics">Business and Economics</option>
+                <option value="Crime, Thriller, and Mystery">Crime, Thriller, and Mystery</option>
+                <option value="Health, Family, and Personal Development">Health, Family, and Personal Development</option>
+                <option value="Kids and Children">Kids and Children</option>
+                <option value="Love and Affection">Love and Affection</option>
+                <option value="Literature and Fiction">Literature and Fiction</option>
+                <option value="Motivation">Motivation</option>
+                <option value="Politics">Politics</option>
+                <option value="Religion / Spiritual">Religion / Spiritual</option>
+                <option value="Sciences, Technology & Medicine">Sciences, Technology & Medicine</option>
+            </select>
+        
+            <label>Book Condition *</label>
+            <div class="condition-options">
+                <label><input type="radio" name="condition" value="New" required> New</label>
+                <label><input type="radio" name="condition" value="Barely Used" required> Barely Used</label>
+                <label><input type="radio" name="condition" value="Heavily Used" required> Heavily Used</label>
+            </div>
+        
+            <label for="address">Your Address *</label>
+            <textarea id="address" name="address" placeholder="Enter your address here" rows="4" required></textarea>
+        
+            <div class="form-buttons">
+                <button type="reset" class="reset-btn">Reset</button>
+                <button type="submit" class="submit-btn">Submit</button>
+            </div>
+        </form>        
+    </div>
+    <script>
+        const form = document.querySelector('form');
+    
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+    
+            const formData = new FormData(form);
+            const formObject = Object.fromEntries(formData.entries());
+    
+            try {
+                const response = await fetch('/give-book', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formObject),
+                });
+    
+                if (response.ok) {
+                    const data = await response.json();
+                    alert(data.message);
+                    form.reset(); // Clear the form after successful submission
+                } else {
+                    const error = await response.json();
+                    alert(`Error: ${error.message}`);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('An unexpected error occurred. Please try again.');
+            }
+        });
+    </script>    
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>My Account</title>
+</head>
+
+<body>
+  <div class="account-container">
+    <h1>My Account</h1>
+    <div class="account-details">
+      <p><strong>Name:</strong> <span id="username"></span></p>
+      <p><strong>Email:</strong> <span id="email"></span></p>
+      <p><strong>Points:</strong> <span id="points"></span></p>
+    </div>
+    <div id="received-requests-container">
+      <h2>Requests Received</h2>
+      <ul id="requests-list"></ul>
+    </div>
+    <div id="sent-requests-container">
+      <h2>Requests Sent</h2>
+      <ul id="sent-requests-list"></ul>
+    </div>     
+    <div class="account-actions">
+      <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <style>
+    /* Body Styling */
+    body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e90ff, #ff7eb3, #7f00ff);
+    background-size: 400% 400%;
+    animation: gradientAnimation 8s ease infinite;
+    overflow: hidden;
+    color: #fff;
+    }
+
+    /* Gradient Animation */
+    @keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+    }
+
+    /* Account Container */
+    .account-container {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(15px);
+    width: 400px;
+    text-align: center;
+    animation: float 4s ease-in-out infinite;
+    }
+
+    /* Floating Animation */
+    @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+    }
+
+    /* Heading Styling */
+    .account-container h1 {
+    font-size: 2rem;
+    color: #ffffff;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+    }
+
+    /* Account Details */
+    .account-details p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .account-details p strong {
+    color: #ffeb3b;
+    }
+
+    /* Buttons Styling */
+    .account-actions button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #ff5722, #ff9800);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .account-actions button:hover {
+    transform: translateY(-5px);
+    background: linear-gradient(135deg, #ff9800, #ff5722);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Add a subtle glowing effect */
+    .account-actions button:focus {
+    outline: none;
+    box-shadow: 0 0 10px #fff, 0 0 20px rgba(255, 87, 34, 0.5);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+    .account-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .account-container h1 {
+        font-size: 1.5rem;
+    }
+
+    .account-details p {
+        font-size: 1rem;
+    }
+
+    .account-actions button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    .requests-received {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    }
+
+    .request-item {
+        margin-bottom: 15px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        text-align: left;
+    }
+
+    .request-item p {
+        margin: 5px 0;
+    }
+
+    .request-item button {
+        margin: 5px;
+        padding: 5px 10px;
+        background: linear-gradient(135deg, #4caf50, #8bc34a);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .request-item button:nth-child(2) {
+        background: linear-gradient(135deg, #f44336, #e57373);
+    }
+
+    .request-item button:hover {
+        opacity: 0.9;
+    }
+
+    }
+
+  </style>
+  <script>
+    async function fetchAccountDetails() {
+      try {
+        const response = await fetch('/account-details', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById('username').textContent = data.username;
+          document.getElementById('email').textContent = data.email;
+          document.getElementById('points').textContent = data.points;
+        } else {
+          alert('Failed to fetch account details. Please log in again.');
+          window.location.href = '/';
+        }
+      } catch (error) {
+        console.error('Error fetching account details:', error);
+        alert('An error occurred. Please try again.');
+      }
+    }
+    async function fetchRequests() {
+      try {
+        const response = await fetch('/view-requests', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
+
+        if (response.ok) {
+          const { receivedRequests, sentRequests } = await response.json();
+
+          // Populate received requests
+          const receivedList = document.getElementById('requests-list');
+          receivedList.innerHTML = ''; // Clear any existing content
+          receivedRequests.forEach((request) => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+              <p><strong>Book:</strong> ${request.book_title}</p>
+              <p><strong>Author:</strong> ${request.book_author}</p>
+              <p><strong>Requested By:</strong> ${request.requested_by_username}</p>
+              <p><strong>Status:</strong> <span id="status-${request.id}">${request.request_status}</span></p>
+              <button onclick="updateRequestStatus(${request.id}, 'Accepted')">Accept</button>
+              <button onclick="updateRequestStatus(${request.id}, 'Rejected')">Reject</button>
+            `;
+            receivedList.appendChild(listItem);
+          });
+
+          // Populate sent requests
+          const sentList = document.getElementById('sent-requests-list');
+          sentList.innerHTML = ''; // Clear any existing content
+          sentRequests.forEach((request) => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+              <p><strong>Book:</strong> ${request.book_title}</p>
+              <p><strong>Author:</strong> ${request.book_author}</p>
+              <p><strong>Status:</strong> ${request.request_status}</p>
+            `;
+            sentList.appendChild(listItem);
+          });
+        } else {
+          alert('Failed to fetch requests.');
+        }
+      } catch (error) {
+        console.error('Error fetching requests:', error);
+      }
+    }
+
+    // Fetch requests on page load
+    fetchRequests();
+
+    async function logout() {
+      try {
+        const response = await fetch('/logout');
+        if (response.ok) {
+          window.location.href = '/';
+        } else {
+          alert('Failed to log out. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error during logout:', error);
+        alert('An error occurred. Please try again.');
+      }
+    }
+
+    // Fetch details on page load
+    fetchAccountDetails();
+  </script>
+</body>
+
+</html>
