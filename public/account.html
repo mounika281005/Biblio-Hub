@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>My Account</title>
+  <style>
+    :root {
+      --bg-1: #f5f2e8;
+      --bg-2: #dbeee8;
+      --bg-3: #fff8ef;
+      --text: #1d2a32;
+      --muted: #5a6a74;
+      --card: rgba(255, 255, 255, 0.82);
+      --card-border: rgba(255, 255, 255, 0.75);
+      --accent: #0f766e;
+      --accent-2: #d97706;
+      --danger: #c2410c;
+      --shadow: 0 16px 40px rgba(35, 52, 64, 0.14);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Manrope', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 15%, rgba(15, 118, 110, 0.22) 0, rgba(15, 118, 110, 0) 42%),
+        radial-gradient(circle at 85% 10%, rgba(217, 119, 6, 0.2) 0, rgba(217, 119, 6, 0) 38%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2) 46%, var(--bg-3));
+      padding: 28px;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      gap: 18px;
+      grid-template-columns: minmax(260px, 320px) 1fr;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .profile {
+      padding: 24px;
+      position: sticky;
+      top: 18px;
+      height: fit-content;
+    }
+
+    .profile h1 {
+      margin: 0 0 18px;
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 2rem;
+      letter-spacing: 0.3px;
+      line-height: 1.1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.12);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .info-row {
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(29, 42, 50, 0.16);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .info-row:last-of-type {
+      border-bottom: 0;
+      margin-bottom: 8px;
+    }
+
+    .label {
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .value {
+      font-size: 1rem;
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .points {
+      font-size: 1.65rem;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .account-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0f766e, #14b8a6);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(15, 118, 110, 0.34);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #c2410c, #ea580c);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(194, 65, 12, 0.3);
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .section {
+      padding: 20px;
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #22313a;
+    }
+
+    .list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .item {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(15, 118, 110, 0.1);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 8px 14px rgba(35, 52, 64, 0.08);
+    }
+
+    .item p {
+      margin: 4px 0;
+      font-size: 0.95rem;
+      color: #2c3a42;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .status.Pending {
+      background: rgba(217, 119, 6, 0.15);
+      color: #9a5800;
+    }
+
+    .status.Accepted {
+      background: rgba(15, 118, 110, 0.14);
+      color: #0f766e;
+    }
+
+    .status.Rejected {
+      background: rgba(194, 65, 12, 0.14);
+      color: #b45309;
+    }
+
+    .request-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .mini-accept {
+      color: #fff;
+      background: linear-gradient(135deg, #0f766e, #14b8a6);
+    }
+
+    .mini-reject {
+      color: #fff;
+      background: linear-gradient(135deg, #b45309, #ea580c);
+    }
+
+    .tx-credit {
+      color: #0f766e;
+      font-weight: 800;
+    }
+
+    .tx-debit {
+      color: #b45309;
+      font-weight: 800;
+    }
+
+    .empty {
+      margin: 0;
+      padding: 8px 2px;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 980px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .profile {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 14px;
+      }
+
+      .profile,
+      .section {
+        padding: 16px;
+      }
+
+      .profile h1 {
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <aside class="panel profile">
+      <h1>My Account</h1>
+      <div class="badge">BiblioHub Member</div>
+
+      <div class="info-row">
+        <span class="label">Name</span>
+        <span class="value" id="username"></span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Email</span>
+        <span class="value" id="email"></span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Redeem Points</span>
+        <span class="points" id="points"></span>
+      </div>
+
+      <div class="account-actions">
+        <button class="btn btn-primary" onclick="window.location.href='/dashboard'">Back to Dashboard</button>
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="panel section" id="my-books-container">
+        <h2>My Available Books</h2>
+        <ul class="list" id="my-books-list"></ul>
+      </section>
+
+      <section class="panel section" id="received-requests-container">
+        <h2>Requests Received</h2>
+        <ul class="list" id="requests-list"></ul>
+      </section>
+
+      <section class="panel section" id="sent-requests-container">
+        <h2>Requests Sent</h2>
+        <ul class="list" id="sent-requests-list"></ul>
+      </section>
+
+      <section class="panel section" id="points-history-container">
+        <h2>Points History</h2>
+        <ul class="list" id="points-history-list"></ul>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function statusClass(status) {
+      if (status === 'Accepted') return 'Accepted';
+      if (status === 'Rejected') return 'Rejected';
+      return 'Pending';
+    }
+
+    async function fetchAccountDetails() {
+      try {
+        const response = await fetch('/account-details', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById('username').textContent = data.username;
+          document.getElementById('email').textContent = data.email;
+          document.getElementById('points').textContent = data.points;
+        } else {
+          alert('Failed to fetch account details. Please log in again.');
+          window.location.href = '/';
+        }
+      } catch (error) {
+        console.error('Error fetching account details:', error);
+        alert('An error occurred. Please try again.');
+      }
+    }
+
+    async function fetchRequests() {
+      try {
+        const response = await fetch('/view-requests', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
+
+        if (!response.ok) {
+          alert('Failed to fetch requests.');
+          return;
+        }
+
+        const { receivedRequests, sentRequests } = await response.json();
+
+        const receivedList = document.getElementById('requests-list');
+        receivedList.innerHTML = '';
+
+        if (!receivedRequests || receivedRequests.length === 0) {
+          receivedList.innerHTML = '<p class="empty">No requests received yet.</p>';
+        } else {
+          receivedRequests.forEach((request) => {
+            const listItem = document.createElement('li');
+            listItem.className = 'item';
+            const status = statusClass(request.request_status);
+            const actions = status === 'Pending'
+              ? `<div class="request-actions">
+                  <button class="mini-btn mini-accept" onclick="updateRequestStatus(${request.id}, 'Accepted')">Accept</button>
+                  <button class="mini-btn mini-reject" onclick="updateRequestStatus(${request.id}, 'Rejected')">Reject</button>
+                </div>`
+              : '';
+
+            listItem.innerHTML = `
+              <p><strong>Book:</strong> ${request.book_title}</p>
+              <p><strong>Author:</strong> ${request.book_author}</p>
+              <p><strong>Requested By:</strong> ${request.requested_by_username}</p>
+              <p><strong>Status:</strong> <span id="status-${request.id}" class="status ${status}">${request.request_status}</span></p>
+              ${actions}
+            `;
+
+            receivedList.appendChild(listItem);
+          });
+        }
+
+        const sentList = document.getElementById('sent-requests-list');
+        sentList.innerHTML = '';
+
+        if (!sentRequests || sentRequests.length === 0) {
+          sentList.innerHTML = '<p class="empty">No requests sent yet.</p>';
+        } else {
+          sentRequests.forEach((request) => {
+            const listItem = document.createElement('li');
+            listItem.className = 'item';
+            const status = statusClass(request.request_status);
+
+            listItem.innerHTML = `
+              <p><strong>Book:</strong> ${request.book_title}</p>
+              <p><strong>Author:</strong> ${request.book_author}</p>
+              <p><strong>Status:</strong> <span class="status ${status}">${request.request_status}</span></p>
+            `;
+
+            sentList.appendChild(listItem);
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching requests:', error);
+      }
+    }
+
+    async function fetchMyBooks() {
+      try {
+        const response = await fetch('/my-books', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
+
+        const myBooksList = document.getElementById('my-books-list');
+        myBooksList.innerHTML = '';
+
+        if (!response.ok) {
+          myBooksList.innerHTML = '<p class="empty">Unable to load your books.</p>';
+          return;
+        }
+
+        const { books } = await response.json();
+
+        if (!books || books.length === 0) {
+          myBooksList.innerHTML = '<p class="empty">You have no available books right now.</p>';
+          return;
+        }
+
+        books.forEach((book) => {
+          const listItem = document.createElement('li');
+          listItem.className = 'item';
+          listItem.innerHTML = `
+            <p><strong>Title:</strong> ${book.title}</p>
+            <p><strong>Author:</strong> ${book.author}</p>
+            <p><strong>Genre:</strong> ${book.subject}</p>
+            <p><strong>Condition:</strong> ${book.condition_type}</p>
+            <p><strong>Status:</strong> <span class="status Pending">${book.status}</span></p>
+          `;
+          myBooksList.appendChild(listItem);
+        });
+      } catch (error) {
+        console.error('Error fetching my books:', error);
+      }
+    }
+
+    async function fetchPointsHistory() {
+      try {
+        const response = await fetch('/points-history', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
+
+        const historyList = document.getElementById('points-history-list');
+        historyList.innerHTML = '';
+
+        if (!response.ok) {
+          historyList.innerHTML = '<p class="empty">Unable to load points history.</p>';
+          return;
+        }
+
+        const { history } = await response.json();
+
+        if (!history || history.length === 0) {
+          historyList.innerHTML = '<p class="empty">No points transactions yet.</p>';
+          return;
+        }
+
+        history.forEach((item) => {
+          const listItem = document.createElement('li');
+          listItem.className = 'item';
+          const amountClass = item.transaction_type === 'Credit' ? 'tx-credit' : 'tx-debit';
+          const amountSign = item.transaction_type === 'Credit' ? '+' : '-';
+
+          listItem.innerHTML = `
+            <p><strong>${item.transaction_type}:</strong> <span class="${amountClass}">${amountSign}${item.points} points</span></p>
+            <p><strong>Book:</strong> ${item.book_title}</p>
+            <p><strong>User:</strong> ${item.other_user}</p>
+          `;
+
+          historyList.appendChild(listItem);
+        });
+      } catch (error) {
+        console.error('Error fetching points history:', error);
+      }
+    }
+
+    async function updateRequestStatus(requestId, status) {
+      try {
+        const response = await fetch('/update-request-status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ requestId, status }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          alert(data.message || 'Failed to update request status.');
+          return;
+        }
+
+        const statusEl = document.getElementById(`status-${requestId}`);
+        if (statusEl) {
+          statusEl.textContent = status;
+          statusEl.className = `status ${statusClass(status)}`;
+        }
+
+        alert(data.message || 'Request updated successfully.');
+        fetchMyBooks();
+        fetchRequests();
+        fetchPointsHistory();
+        fetchAccountDetails();
+      } catch (error) {
+        console.error('Error updating request status:', error);
+        alert('An error occurred while updating the request.');
+      }
+    }
+
+    async function logout() {
+      try {
+        const response = await fetch('/logout');
+        if (response.ok) {
+          window.location.href = '/';
+        } else {
+          alert('Failed to log out. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error during logout:', error);
+        alert('An error occurred. Please try again.');
+      }
+    }
+
+    fetchAccountDetails();
+    fetchMyBooks();
+    fetchRequests();
+    fetchPointsHistory();
+  </script>
+</body>
+
+</html>

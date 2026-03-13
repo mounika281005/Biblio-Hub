@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why Use Our Book Exchange Portal</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(120deg, #f0f4c3, #81d4fa);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* Section Styling */
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      background: linear-gradient(to right, #ff8a65, #f4a261);
+      background-clip: text; /* Standard background-clip */
+      color: transparent; /* Make the text color transparent */
+      margin-bottom: 20px;
+      animation: floatTitle 3s infinite alternate ease-in-out;
+      -webkit-background-clip: text; /* Safari and Chrome */
+      -webkit-text-fill-color: transparent; /* Safari and Chrome */
+    }
+
+    /* Card Layout */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #ffffff, #e0e0e0);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1), -5px -5px 15px rgba(255, 255, 255, 0.8);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2), -10px -10px 30px rgba(255, 255, 255, 0.9);
+    }
+
+    /* Icons */
+    .card img {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 10px;
+      animation: floatIcon 2.5s infinite alternate ease-in-out;
+    }
+
+    /* Card Title */
+    .card h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: #ffb74d;
+    }
+
+    /* Card Text */
+    .card p {
+      font-size: 1em;
+      color: #666;
+      line-height: 1.5em;
+    }
+
+    /* Background Animation */
+    .card::after {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, #81c784, transparent);
+      opacity: 0.5;
+      animation: floatBackground 4s infinite ease-in-out;
+      z-index: -1;
+    }
+
+    /* Animations */
+    @keyframes floatTitle {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes floatIcon {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @keyframes floatBackground {
+      0% {
+        transform: translate(0, 0);
+      }
+      100% {
+        transform: translate(20px, 20px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Why Use Our Book Exchange Portal?</h1>
+    <div class="card-grid">
+      <div class="card">
+        <img src="images/simple-icon.jpg" alt="Simple Icon">
+        <h2>Simple</h2>
+        <p>Our platform makes book exchanging effortless for book lovers of all ages. Give a book, take a book, and experience the joy of discovering new reads.</p>
+      </div>
+      <div class="card">
+        <img src="images/socialize-icon.jpg" alt="Socialize Icon">
+        <h2>Socialize</h2>
+        <p>Books are better when shared. Connect with fellow readers, exchange stories, and turn your personal collection into a source of joy for others.</p>
+      </div>
+      <div class="card">
+        <img src="images/eco-icon.jpg" alt="Eco-Friendly Icon">
+        <h2>Eco-Friendly</h2>
+        <p>Reduce your carbon footprint by reusing and recycling books. Every book exchange helps conserve resources, protect forests, and contribute to a greener planet.</p>
+      </div>
+      <div class="card">
+        <img src="images/declutter-icon.jpg" alt="Declutter Icon">
+        <h2>Declutter</h2>
+        <p>Free up space on your shelves by sharing books you no longer need. Keep your collection fresh while maintaining a clean, clutter-free home.</p>
+      </div>
+      <div class="card">
+        <img src="images/discover-icon.jpg" alt="Discover Icon">
+        <h2>Discover More</h2>
+        <p>From timeless classics to rare finds, explore a diverse range of books. Every book tells a story—why not make it yours?</p>
+      </div>
+      <div class="card">
+        <img src="images/rewards-icon.jpg" alt="Rewards Icon">
+        <h2>Earn Rewards</h2>
+        <p>Exchange books and earn points! Use these points to request more books from others. The more you give, the more you can explore.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

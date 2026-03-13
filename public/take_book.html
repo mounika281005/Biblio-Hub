@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Search</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('backgroundimage.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            color: #fff;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: black;
+        }
+
+        .header .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header .account-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: absolute; 
+            top: 10px;
+            right: 100px;
+        }
+
+        .header .account-btn:hover {
+            background-color: #45a049;
+        }
+
+        h1 {
+            text-align: center;
+            color: black;
+            margin-top: 80px;
+            font-size: 3em;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        h3 {
+            text-align: center;
+            color: black;
+            margin-top: 50px;
+            font-size: 2em;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.8);
+        }
+        .container {
+            background: rgba(231, 230, 230, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            width: 50%;
+            margin: 50px auto;
+            box-shadow: 0px 8px 15px rgba(11, 6, 6, 0.4);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .search-btn {
+            background-color: #4CAF50;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-btn img {
+            width: 20px;
+        }
+
+        .book {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .book button {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .book button:hover {
+            background-color: #007BB5;
+            transform: scale(1.05);
+        }
+
+        .book button:active {
+            transform: scale(0.95);
+        }
+
+        .categories-container {
+            margin-top: 200px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            width: 100%; /* Adjust width as needed */
+            height: 100px; /* Adjust height as needed */
+            padding: 20px; /* Optional: Adds space inside the container */
+            box-sizing: border-box; /* Ensures padding is included in width and height */
+        }
+
+        .arrow-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 2em;
+            color: #333;
+        }
+
+        .categories-wrapper {
+            overflow: hidden;
+            width: 200%;
+        }
+
+        .categories {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .category {
+            background: #fff;
+            padding: 10px;
+            color: black;
+            border-radius: 10px;
+            margin: 0 10px;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+
+        .category:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.2);
+            background-color: #f0fbf7;
+        }
+
+        .category.active {
+            background-color: #e1f7ef;
+            box-shadow: 0px 10px 16px rgba(15, 118, 110, 0.25);
+        }
+
+        .category img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .view-all-btn {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: auto;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-all-btn:hover {
+            background-color: #007BB5;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="#" class="logo">
+            <img src="logo.jpg" alt="BookSwap Logo">
+            BiblioHub
+        </a>
+        <button class="account-btn" onclick="location.href='/account'">My Account</button>
+    </div>
+    <h1>Take Books</h1>
+    <div class="container">
+        <form id="searchForm">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search books by title, author, subject, or location">                
+                <button type="submit" class="search-btn">
+                    <img src="search-icon.png" alt="Search Icon">
+                </button>
+            </div>
+        </form>
+        <div id="searchResults"></div>
+    </div>   
+    <!-- Categories Section -->
+    <div class="categories-container">
+        <button class="arrow-btn" id="leftArrow">&#8592;</button>
+        <div class="categories-wrapper">
+            <div class="categories" id="categories">
+                <div class="category" data-subject="Academics and Testbooks">
+                    <img src="images/academics.jpeg" alt="academics">
+                    <p>Academics and Testbooks</p>
+                </div>
+                <div class="category" data-subject="Action and Adventure">
+                    <img src="images/action.jpeg" alt="action">
+                    <p>Action and Adventure</p>
+                </div>
+                <div class="category" data-subject="Biographies and Diaries">
+                    <img src="images/biography.jpeg" alt="biography">
+                    <p>Biographies and Diaries</p>
+                </div>
+                <div class="category" data-subject="Business and Economics">
+                    <img src="images/business.jpeg" alt="business">
+                    <p>Business and Economics</p>
+                </div>
+                <div class="category" data-subject="Crime, Thriller, and Mystery">
+                    <img src="images/crime.jpeg" alt="crime">
+                    <p>Crime, Thriller and Mystery</p>
+                </div>
+                <div class="category" data-subject="Health, Family, and Personal Development">
+                    <img src="images/health.jpeg" alt="health">
+                    <p>Health, Family, and Personal Development</p>
+                </div>
+                <div class="category" data-subject="Kids and Children">
+                    <img src="images/kids.jpeg" alt="kids">
+                    <p>Kids and Children</p>
+                </div>
+                <div class="category" data-subject="Literature and Fiction">
+                    <img src="images/literature.jpeg" alt="literature">
+                    <p>Literature and Fiction</p>
+                </div>
+                <div class="category" data-subject="Love and Affection">
+                    <img src="images/love.jpeg" alt="love">
+                    <p>Love and Affection</p>
+                </div>
+                <div class="category" data-subject="Motivation">
+                    <img src="images/motivation.jpeg" alt="motivation">
+                    <p>Motivation</p>
+                </div>
+                <div class="category" data-subject="Politics">
+                    <img src="images/politics.jpeg" alt="politics">
+                    <p>Politics</p>
+                </div>
+                <div class="category" data-subject="Religion / Spiritual">
+                    <img src="images/religion.jpeg" alt="religion">
+                    <p>Religion / Spiritual</p>
+                </div>
+                <div class="category" data-subject="Sciences, Technology & Medicine">
+                    <img src="images/sciences.jpeg" alt="sciences">
+                    <p>Sciences, Technology & Medicine</p>
+                </div>                
+            </div>
+        </div>
+        <button class="arrow-btn" id="rightArrow">&#8594;</button>
+        <button class="view-all-btn" id="viewAllBtn">View All</button>
+    </div>
+    <!-- Modal -->
+    <div class="modal" id="viewAllModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">Close</button>
+            <div id="allBooks"></div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const searchForm = document.getElementById('searchForm');
+        const searchResults = document.getElementById('searchResults');
+        const viewAllBtn = document.getElementById('viewAllBtn');
+        const viewAllModal = document.getElementById('viewAllModal');
+        const closeModal = document.getElementById('closeModal');
+        const allBooks = document.getElementById('allBooks');
+
+        function renderBooks(container, books) {
+            container.innerHTML = '';
+
+            if (!books || books.length === 0) {
+                container.innerHTML = "<p>No books found.</p>";
+                return;
+            }
+
+            books.forEach((book) => {
+                const bookDiv = document.createElement('div');
+                bookDiv.className = 'book';
+
+                bookDiv.innerHTML = `
+                    <h3>${book.title}</h3>
+                    <p><strong>Author:</strong> ${book.author}</p>
+                    <p><strong>Subject:</strong> ${book.subject}</p>
+                    <p><strong>Condition:</strong> ${book.condition_type}</p>
+                    <p><strong>Location:</strong> ${book.address}</p>
+                    <p><strong>Owner:</strong> ${book.owner_name}</p>
+                    <button class="request-btn" data-id="${book.id}" ${book.is_own ? 'disabled style="opacity:0.6;cursor:not-allowed;"' : ''}>
+                        ${book.is_own ? 'Your Book' : 'Request Book'}
+                    </button>
+                `;
+
+                container.appendChild(bookDiv);
+            });
+
+            attachRequestListeners();
+        }
+
+        // ================= SEARCH BOOKS =================
+        searchForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const query = document.getElementById('searchInput').value.trim();
+
+            try {
+                const response = await fetch(`/search-books?query=${encodeURIComponent(query)}&includeOwn=true`);
+
+                if (!response.ok) {
+                    alert("Please login first.");
+                    window.location.href = "/";
+                    return;
+                }
+
+                const books = await response.json();
+                renderBooks(searchResults, books);
+
+            } catch (error) {
+                console.error(error);
+                alert("Server error. Please try again.");
+            }
+        });
+
+        // ================= VIEW ALL BOOKS =================
+        viewAllBtn.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/search-books?query=&includeOwn=true');
+
+                if (!response.ok) {
+                    alert("Please login first.");
+                    window.location.href = "/";
+                    return;
+                }
+
+                const books = await response.json();
+                renderBooks(allBooks, books);
+                viewAllModal.style.display = 'flex';
+            } catch (error) {
+                console.error(error);
+                alert("Server error. Please try again.");
+            }
+        });
+
+        closeModal.addEventListener('click', () => {
+            viewAllModal.style.display = 'none';
+        });
+
+        viewAllModal.addEventListener('click', (e) => {
+            if (e.target === viewAllModal) {
+                viewAllModal.style.display = 'none';
+            }
+        });
+
+        // ================= REQUEST BOOK =================
+        function attachRequestListeners() {
+            document.querySelectorAll('.request-btn').forEach((button) => {
+                button.addEventListener('click', async () => {
+
+                    const bookId = button.getAttribute('data-id');
+
+                    try {
+                        const response = await fetch('/request-book', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ bookId }),
+                        });
+
+                        const result = await response.json();
+                        alert(result.message);
+
+                    } catch (error) {
+                        console.error(error);
+                        alert("Server error. Please try again.");
+                    }
+                });
+            });
+        }
+
+
+        // ================= CATEGORY SLIDER =================
+        const categories = document.getElementById('categories');
+        const leftArrow = document.getElementById('leftArrow');
+        const rightArrow = document.getElementById('rightArrow');
+        const categoryCards = document.querySelectorAll('.category');
+
+        let scrollPosition = 0;
+
+        leftArrow.addEventListener('click', () => {
+            scrollPosition = Math.min(scrollPosition + 200, 0);
+            categories.style.transform = `translateX(${scrollPosition}px)`;
+        });
+
+        rightArrow.addEventListener('click', () => {
+            scrollPosition = Math.max(
+                scrollPosition - 200,
+                -(categories.scrollWidth - categories.parentElement.offsetWidth)
+            );
+            categories.style.transform = `translateX(${scrollPosition}px)`;
+        });
+
+        // ================= CATEGORY FILTER =================
+        categoryCards.forEach((card) => {
+            card.addEventListener('click', async () => {
+                const subject = card.getAttribute('data-subject');
+
+                categoryCards.forEach((c) => c.classList.remove('active'));
+                card.classList.add('active');
+
+                try {
+                    const response = await fetch(
+                        `/search-books?query=&subject=${encodeURIComponent(subject)}&includeOwn=true`
+                    );
+
+                    if (!response.ok) {
+                        alert("Please login first.");
+                        window.location.href = "/";
+                        return;
+                    }
+
+                    const books = await response.json();
+                    renderBooks(searchResults, books);
+                    searchResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } catch (error) {
+                    console.error(error);
+                    alert("Server error. Please try again.");
+                }
+            });
+        });
+
+    });
+    </script>
+
+</body>
+</html>
