@@ -10,10 +10,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-
+require('dotenv').config();
 app.use(
   session({
-    secret: 'super-secret-key',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 } // 1 hour
@@ -22,10 +22,11 @@ app.use(
 
 // ================= DATABASE CONNECTION =================
 const db = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'Mounika@281005',
-  database: 'biblio_hub',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
