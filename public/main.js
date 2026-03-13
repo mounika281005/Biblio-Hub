@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 document.addEventListener("DOMContentLoaded", function () {
 
     let wrapper = document.querySelector('.wrapper'),
@@ -121,7 +120,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
-=======
 let wrapper = document.querySelector('.wrapper'),
     signUpLink = document.querySelector('.link .signup-link'),
     signInLink = document.querySelector('.link .signin-link');
@@ -197,4 +195,3 @@ document.getElementById('signinForm').addEventListener('submit', async function 
         showPopup('An error occurred. Please try again later.');
     }
 });
->>>>>>> 9d2a1f315092d1b5323e9044e54697a449d7c782
